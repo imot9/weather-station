@@ -29,6 +29,10 @@ ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 
+# Yocto configuration discourages root priviliges
+RUN useradd -m yocto-user && chown -R yocto-user:yocto-user /yocto
+USER yocto-user
+
 RUN git clone https://github.com/openembedded/bitbake.git bitbake && \
     git clone https://github.com/openembedded/openembedded-core.git openembedded-core && \
     git clone https://github.com/agherzan/meta-raspberrypi.git meta-raspberrypi && \
