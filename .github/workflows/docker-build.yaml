@@ -37,10 +37,10 @@ jobs:
           docker run \
           --rm \
           -v ${{ github.workspace }}:/workspace \
-          -w /workspace \
+          -w /yocto \
           ${{ vars.DOCKERHUB_USERNAME }}/weather-station:latest \
           bash -c "
-            source oe-init-build-env;
+            source openembedded-core/oe-init-build-env;
             bitbake core-image-minimal;
           "
       -
