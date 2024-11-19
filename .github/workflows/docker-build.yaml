@@ -23,3 +23,29 @@ jobs:
         with:
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/weather-station:latest
+
+  build-yocto:
+    runs-on: ubuntu-latest
+    needs: publish-docker
+    steps:
+      -
+        name: Checkout source code
+        uses: actions/checkout@v3
+      -
+        name: Set up Docker
+        run: |
+          docker run \
+          --rm \
+          -v ${{ github.workspace }}:/workspace \
+          -w /workspace \
+          ${{ vars.DOCKERHUB_USERNAME }}/weather-station:latest \
+          bash -c "
+            source oe-init-build-env;
+            bitbake core-image-minimal;
+          "
+      -
+        name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: yocto-output
+          path: build/tmp/deploy/images/
