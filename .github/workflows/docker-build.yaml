@@ -32,6 +32,13 @@ jobs:
         name: Checkout source code
         uses: actions/checkout@v3
       -
+        name: Check disk space
+        run: |
+          df -h
+          du -sh /usr
+          du -sh /opt
+          du -sh $AGENT_TOOLSDIRECTORY
+      -
         name: Set up Docker
         run: |
           docker run \
