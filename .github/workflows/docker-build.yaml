@@ -57,4 +57,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: yocto-output
-          path: build/tmp/deploy/images/
+          path: /yocto/build/tmp-glibc/deploy/images/raspberrypi5/*.{wic.bz2,wic.bmap}
