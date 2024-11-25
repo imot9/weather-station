@@ -34,9 +34,9 @@ RUN useradd -m yocto-user && chown -R yocto-user:yocto-user /yocto
 USER yocto-user
 
 RUN git clone https://github.com/openembedded/bitbake.git bitbake && \
-    git clone https://github.com/openembedded/openembedded-core.git openembedded-core && \
-    git clone https://github.com/agherzan/meta-raspberrypi.git meta-raspberrypi && \
-    git clone https://github.com/openembedded/meta-openembedded.git meta-openembedded
+    git clone -b kirkstone --single-branch https://github.com/openembedded/openembedded-core.git openembedded-core && \
+    git clone -b kirkstone --single-branch https://github.com/agherzan/meta-raspberrypi.git meta-raspberrypi && \
+    git clone -b kirkstone --single-branch https://github.com/openembedded/meta-openembedded.git meta-openembedded
 
 RUN source openembedded-core/oe-init-build-env build && \
     bitbake --version
