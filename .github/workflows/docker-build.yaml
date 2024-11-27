@@ -51,10 +51,11 @@ jobs:
             cp /workspace/conf/local.conf conf/local.conf;
             cp /workspace/conf/bblayers.conf conf/bblayers.conf;
             bitbake core-image-minimal;
+            cp /yocto/build/tmp-glibc/deploy/images/raspberrypi5/*.{wic.bz2,wic.bmap} /workspace/deploy-images;
           "
       -
         name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: yocto-output
-          path: /yocto/build/tmp-glibc/deploy/images/raspberrypi5/*.{wic.bz2,wic.bmap}
+          path: ${{ github.workspace }}/deploy-images/*.{wic.bz2,wic.bmap}
