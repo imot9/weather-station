@@ -39,6 +39,11 @@ jobs:
           du -sh /opt
           du -sh $AGENT_TOOLSDIRECTORY
       -
+        name: Set up aritfact directory
+        run: |
+          mkdir -p ${{ github.workspace }}/artifacts
+          chmod 777 ${{ github.workspace }}/artifacts
+      -
         name: Set up Docker
         run: |
           docker run \
@@ -51,11 +56,13 @@ jobs:
             cp /workspace/conf/local.conf conf/local.conf;
             cp /workspace/conf/bblayers.conf conf/bblayers.conf;
             bitbake core-image-minimal;
-            cp /yocto/build/tmp-glibc/deploy/images/raspberrypi5/*.{wic.bz2,wic.bmap} /workspace/deploy-images;
+            ls -l /yocto/build/tmp-glibc/deploy/images/raspberrypi5/
+            cp /yocto/build/tmp-glibc/deploy/images/raspberrypi5/*.wic.bz2 /workspace/artifacts;
+            cp /yocto/build/tmp-glibc/deploy/images/raspberrypi5/*.wic.bmap /workspace/artifacts;
           "
       -
         name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: yocto-output
-          path: ${{ github.workspace }}/deploy-images/*.{wic.bz2,wic.bmap}
+          path: ${{ github.workspace }}/artifacts/*
